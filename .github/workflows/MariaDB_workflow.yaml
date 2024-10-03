@@ -20,6 +20,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::730335291032:role/GH-action-role
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: us-east-1
           
       - name: Run Ansible Playbook using SSM
         env:
