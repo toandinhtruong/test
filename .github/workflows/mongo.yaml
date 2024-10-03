@@ -10,6 +10,7 @@ on:
 permissions:
   id-token: write  # Required for OIDC authentication
   contents: read   # Required to access the repository content
+
 jobs:
   run_playbook:
     runs-on: ubuntu-latest
@@ -24,6 +25,7 @@ jobs:
           role-to-assume: arn:aws:iam::730335291032:role/GH-action-role
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: us-east-1
+
       - name: Run Ansible Playbook using SSM
         env:
           DB_USERNAME: ${{ secrets.DB_USERNAME }}  # GitHub Secret for username
@@ -39,14 +41,13 @@ jobs:
             --instance-ids $INSTANCE_IDS \
             --max-errors 1 \
             --parameters '{
-                "extravars": [
-                   "SSM=True",
-                   "db_username='"$DB_USERNAME"'",
-                   "db_password='"$DB_PASSWORD"'"
-                     ],
-                "check": ["False"],
-                "playbook": ["$PLAYBOOK"]
-           }'
+              "extravars": [
+                "SSM=True",
+                "db_username='"$DB_USERNAME"'",
+                "db_password='"$DB_PASSWORD"'"
+              ],
+              "check": ["False"],
+              "playbook": ["'"$PLAYBOOK"'"]
+            }' \
             --timeout-seconds 600 \
             --region us-east-1
-
