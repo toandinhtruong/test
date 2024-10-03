@@ -1,4 +1,4 @@
-name: Run Ansible Playbook via SSM
+name: Run Ansible Playbook for MariaDB via SSM
 
 on:
   workflow_dispatch:
