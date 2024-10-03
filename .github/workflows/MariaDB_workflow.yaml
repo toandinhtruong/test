@@ -40,11 +40,13 @@ jobs:
             --document-version "1" \
             --instance-ids $INSTANCE_IDS \
             --parameters '{
-            "playbook": [""],
-            "playbookurl": ["'"$PLAYBOOK"'"],
-            "extravars": ["SSM=True", "db_password='"$DB_PASSWORD"'"],
-            "check": ["False"],
-            "timeoutSeconds": ["3600"]}' \
+              "extravars": [
+                "SSM=True",
+                "db_password='"$DB_PASSWORD"'"
+              ],
+              "check": ["False"],
+              "playbook": ["'"$PLAYBOOK"'"]
+            }' \
             --timeout-seconds 6000 \
             --max-concurrency "50" \
             --max-errors "0" \
