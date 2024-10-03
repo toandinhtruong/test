@@ -38,7 +38,7 @@ jobs:
             --document-name "$SSM_DOCUMENT" \
             --instance-ids $INSTANCE_IDS \
             --max-errors 1 \
-            --parameters '{"extravars":{"db_username":"'"$DB_USERNAME"'","db_password":"'"$DB_PASSWORD"'"}}' \
+            --parameters '{"extravars":["db_username='"$DB_USERNAME"'","db_password='"$DB_PASSWORD"'"]}' \
             --timeout-seconds 600 \
             --region us-east-1
 
