@@ -39,14 +39,7 @@ jobs:
             --document-name "$SSM_DOCUMENT" \
             --document-version "1" \
             --instance-ids $INSTANCE_IDS \
-            --parameters '{
-              "extravars": [
-                "SSM=True",
-                "db_password='"$DB_PASSWORD"'"
-              ],
-              "check": ["False"],
-              "playbook": ["'"$PLAYBOOK"'"]
-            }' \
+            --parameters '{"extravars": ["SSM=True", "db_password='"$DB_PASSWORD"'"], "check": ["False"], "playbook": ["'"$PLAYBOOK"'"]}' \
             --timeout-seconds 6000 \
             --max-concurrency "50" \
             --max-errors "0" \
