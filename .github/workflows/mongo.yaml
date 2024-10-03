@@ -7,6 +7,9 @@ on:
         description: 'Comma-separated list of EC2 instance IDs'
         required: true
 
+permissions:
+  id-token: write  # Required for OIDC authentication
+  contents: read   # Required to access the repository content
 jobs:
   run_playbook:
     runs-on: ubuntu-latest
