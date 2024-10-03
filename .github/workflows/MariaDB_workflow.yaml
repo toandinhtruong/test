@@ -32,7 +32,7 @@ jobs:
         run: |
           INSTANCE_IDS="${{ github.event.inputs.instance_ids }}"  # Input instance IDs
           PLAYBOOK="s3://playbook-toantd19/MariaDB.yaml"  # Your Ansible playbook file
-          SSM_DOCUMENT="AWS-RunAnsible"  # Document to execute commands
+          SSM_DOCUMENT="AWS-RunAnsiblePlaybook"  # Document to execute commands
 
           # Run the Ansible playbook using SSM
           aws ssm send-command \
