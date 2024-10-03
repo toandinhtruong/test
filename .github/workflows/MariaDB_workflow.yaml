@@ -35,4 +35,18 @@ jobs:
           SSM_DOCUMENT="AWS-RunAnsible"  # Document to execute commands
 
           # Run the Ansible playbook using SSM
-          aws ssm send-command --document-name "$SSM_DOCUMENT" --document-version "1" --instance-ids $INSTANCE_IDS --parameters '{"playbook":[""],"playbookurl":["$PLAYBOOK"],"extravars":["SSM=True" "db_password":"'"$DB_PASSWORD"'"],"check":["False"],"timeoutSeconds":["3600"]}' --timeout-seconds 6000 --max-concurrency "50" --max-errors "0" --region us-east-1
+          aws ssm send-command \
+  --document-name "$SSM_DOCUMENT" \
+  --document-version "1" \
+  --instance-ids $INSTANCE_IDS \
+  --parameters '{
+    "playbook": [""],
+    "playbookurl": ["'"$PLAYBOOK"'"],
+    "extravars": ["SSM=True", "db_password='"$DB_PASSWORD"'"],
+    "check": ["False"],
+    "timeoutSeconds": ["3600"]
+  }' \
+  --timeout-seconds 6000 \
+  --max-concurrency "50" \
+  --max-errors "0" \
+  --region us-east-1
