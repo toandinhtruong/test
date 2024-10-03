@@ -1,0 +1,31 @@
+---
+- name: Install and configure MongoDB
+  hosts: all
+  become: true
+
+  vars:
+    db_username: "{{ lookup('env', 'DB_USERNAME') }}"
+    db_password: "{{ lookup('env', 'DB_PASSWORD') }}"
+
+  tasks:
+    # Install and Configure MongoDB
+    - name: Install MongoDB
+      package:
+        name: mongodb
+        state: present
+
+    - name: Ensure MongoDB is running
+      service:
+        name: mongodb
+        state: started
+        enabled: yes
+
+    - name: Create MongoDB admin user
+      mongodb_user:
+        login_user: "{{ db_username }}"
+        login_password: "{{ db_password }}"
+        name: "{{ db_username }}"
+        password: "{{ db_password }}"
+        roles: ["userAdminAnyDatabase", "dbAdminAnyDatabase"]
+        state: present
+
