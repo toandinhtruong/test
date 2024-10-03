@@ -1,0 +1,41 @@
+name: Run Ansible Playbook via SSM
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance_ids:
+        description: 'Comma-separated list of EC2 instance IDs'
+        required: true
+
+jobs:
+  run_playbook:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: arn:aws:iam::730335291032:role/GH-action-role
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          
+      - name: Run Ansible Playbook using SSM
+        env:
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}  # GitHub Secret for username
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}  # GitHub Secret for password
+        run: |
+          INSTANCE_IDS="${{ github.event.inputs.instance_ids }}"  # Input instance IDs
+          PLAYBOOK="s3://playbook-toantd19/MongoDB.yaml"  # Your Ansible playbook file
+          SSM_DOCUMENT="AWS-RunAnsible"  # Document to execute commands
+
+          # Run the Ansible playbook using SSM
+          aws ssm send-command \
+            --document-name "$SSM_DOCUMENT" \
+            --instance-ids $INSTANCE_IDS \
+            --max-errors 1 \
+            --parameters '{"extravars":{"db_username":"'"$DB_USERNAME"'","db_password":"'"$DB_PASSWORD"'"}}' \
+            --timeout-seconds 600 \
+            --region us-east-1
+
