@@ -36,6 +36,7 @@ jobs:
           SSM_DOCUMENT="AWS-RunAnsible"  # Document to execute commands
 
           # Run the Ansible playbook using SSM
+          aws ssm get-document --name "AWS-RunAnsible" --region us-east-1
           aws ssm send-command \
             --document-name "$SSM_DOCUMENT" \
             --instance-ids $INSTANCE_IDS \
