@@ -33,10 +33,10 @@ jobs:
         run: |
           INSTANCE_IDS="${{ github.event.inputs.instance_ids }}"  # Input instance IDs
           PLAYBOOK="s3://playbook-toantd19/MongoDB.yaml"  # Your Ansible playbook file
-          SSM_DOCUMENT="AWS-RunAnsible"  # Document to execute commands
+          SSM_DOCUMENT="AWS-ApplyAnsiblePlaybooks"  # Document to execute commands
 
           # Run the Ansible playbook using SSM
-          aws ssm get-document --name "AWS-RunAnsible" --region us-east-1
+          aws ssm get-document --name "AWS-ApplyAnsiblePlaybooks" --region us-east-1
           aws ssm send-command \
             --document-name "$SSM_DOCUMENT" \
             --instance-ids $INSTANCE_IDS \
