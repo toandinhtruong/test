@@ -38,7 +38,15 @@ jobs:
             --document-name "$SSM_DOCUMENT" \
             --instance-ids $INSTANCE_IDS \
             --max-errors 1 \
-            --parameters '{"extravars":["db_username='"$DB_USERNAME"'","db_password='"$DB_PASSWORD"'"]}' \
+            --parameters '{
+                "extravars": [
+                   "SSM=True",
+                   "db_username='"$DB_USERNAME"'",
+                   "db_password='"$DB_PASSWORD"'"
+                     ],
+                "check": ["False"],
+                "playbook": ["$PLAYBOOK"]
+           }'
             --timeout-seconds 600 \
             --region us-east-1
 
